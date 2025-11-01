@@ -1,0 +1,1 @@
+Replaced frontend Supabase calls with backend REST endpoints backed by MongoDB. Added backend model WasteCategory and route /api/waste_categories. Updated frontend AuthContext and aiClassifier to use backend API.
