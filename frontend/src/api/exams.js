@@ -1,4 +1,4 @@
-import { apiClient } from './client';
+import { apiClient, getApiBase } from './client';
 
 export const listExams = () => apiClient.get('/exams');
 export const getExam = (id) => apiClient.get(`/exams/${id}`);
@@ -7,7 +7,7 @@ export const updateExam = (id, payload) => apiClient.put(`/exams/${id}`, payload
 export const deleteExam = (id) => apiClient.del(`/exams/${id}`);
 
 export const uploadExamImage = async (examId, imageFile) => {
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const API_BASE = getApiBase();
   const token = localStorage.getItem('token') || '';
   
   const formData = new FormData();

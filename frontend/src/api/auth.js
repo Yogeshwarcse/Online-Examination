@@ -3,7 +3,6 @@ import { apiClient } from './client.js';
 export async function signIn({ email, password }) {
   const data = await apiClient.post('/auth/login', { email, password });
 
-  // ✅ Save token for future API calls
   if (data.token) {
     localStorage.setItem('token', data.token);
   }

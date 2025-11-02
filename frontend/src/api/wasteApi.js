@@ -1,11 +1,11 @@
-import { apiClient } from './client';
+import { apiClient, getApiBase } from './client';
 
 export const wasteApi = {
   async classifyWaste(imageFile) {
     const formData = new FormData();
     formData.append('image', imageFile);
     
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    const API_BASE = getApiBase();
     const token = localStorage.getItem('token') || '';
     
     const headers = {};
@@ -37,7 +37,7 @@ export const wasteApi = {
   async getLeaderboard(limit = 100) {
     try {
       // This endpoint might not exist, returning empty array for now
-      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const API_BASE = getApiBase();
       const res = await fetch(`${API_BASE}/profiles/leaderboard?limit=${limit}`);
       if (res.ok) {
         return await res.json();
@@ -51,7 +51,7 @@ export const wasteApi = {
 
   async getUserRank(userId) {
     try {
-      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const API_BASE = getApiBase();
       const res = await fetch(`${API_BASE}/profiles/rank/${userId}`);
       if (res.ok) {
         const data = await res.json();

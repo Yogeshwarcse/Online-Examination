@@ -1,4 +1,5 @@
 import { wasteApi } from "../api/wasteApi";
+import { getApiBase } from "../api/client";
 import type { WastePrediction, CategoryDetails } from "../types";
 
 export async function classifyWaste(imageFile: File): Promise<WastePrediction> {
@@ -7,7 +8,7 @@ export async function classifyWaste(imageFile: File): Promise<WastePrediction> {
   const confidence = 0.9; // Placeholder until backend sends real confidence
 
   // Fetch the actual category details from backend API
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const API_BASE = getApiBase();
   const resp = await fetch(`${API_BASE}/waste_categories?name=${encodeURIComponent(predictedCategory)}`);
   let categoryData = null;
   if (resp.ok) {
