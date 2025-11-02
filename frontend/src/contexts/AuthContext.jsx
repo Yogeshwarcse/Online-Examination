@@ -43,9 +43,23 @@ export const AuthProvider = ({ children }) => {
   const signUp = async (email, password, name, role) => {
     try {
       const { signUp: apiSignUp, signIn, getMe } = await import("./../api/auth.js");
-      await apiSignUp({ name, email, password, role });
-      // signIn already stores the token in localStorage
-      const userData = await signIn({ email, password });
+      
+      // Validate input before sending
+      if (!name || name.trim().length === 0) {
+        throw new Error('Full name is required');
+      }
+      if (!email || email.trim().length === 0) {
+        throw new Error('Email is required');
+      }
+      if (!password || password.length < 6) {
+        throw new Error('Password must be at least 6 characters');
+      }
+      
+      // Call signup API
+      await apiSignUp({ name: name.trim(), email: email.trim(), password, role: role || 'student' });
+      
+      // Automatically sign in after successful signup
+      const userData = await signIn({ email: email.trim(), password });
 
       // Get profile after token is stored
       const profileData = await getMe().catch(() => null);
@@ -58,7 +72,9 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (err) {
       console.error("Sign up failed:", err);
-      throw err;
+      // Provide more user-friendly error message
+      const errorMessage = err instanceof Error ? err.message : 'Failed to sign up. Please try again.';
+      throw new Error(errorMessage);
     }
   };
 
