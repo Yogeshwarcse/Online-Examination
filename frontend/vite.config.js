@@ -9,9 +9,10 @@ export default defineConfig({
     // If VITE_API_URL is set, use it directly (no proxy needed)
     proxy: !process.env.VITE_API_URL ? {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'https://online-examination-1-s3rp.onrender.com',
         changeOrigin: true,
-        secure: false,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
       }
     } : undefined
   }
